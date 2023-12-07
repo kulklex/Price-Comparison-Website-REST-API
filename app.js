@@ -10,7 +10,8 @@ const app = express();
 app.use(bodyParser.json());
 
 // Routes
-app.use('/', routes); // Assuming your routes are in the 'routes' file and prefixed with '/api'
+app.use('/api', routes); 
+
 
 // Start the server
 const PORT = process.env.PORT || 5000;
