@@ -1,7 +1,7 @@
-// Import your search function
+
+const { search } = require('../utils');
 
 // Import your database module
-const { search } = require('../utils');
 const db = require('../database/db');
 
 // Mock the database query function

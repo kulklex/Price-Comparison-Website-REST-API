@@ -1,3 +1,4 @@
+// Import your database module
 const db = require("./database/db")
 
 
@@ -8,7 +9,7 @@ async function getSearchCount(searchTerm) {
     return result[0]["COUNT(*)"];
   }
   
-  /** Function that searches for product with search term */
+/** Function that searches for product with search term */
  async function search(searchTerm, numItems, offset) {
     let sql = `SELECT * FROM Product WHERE name LIKE '%${searchTerm}%' `;
   
