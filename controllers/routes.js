@@ -5,17 +5,6 @@ const router = express.Router();
 const db = require("../database/db");
 
 
-// Route to retrieve a list of products
-router.get("/", async (req, res) => {
-  try {
-    const products = await db.query("SELECT * FROM product LIMIT 50");
-    res.json({ products });
-  } catch (error) {
-    console.error("Error querying database:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
-
 // Route to perform a search based on query parameters
 router.get("/search", async (req, res) => {
   try {
@@ -54,7 +43,7 @@ router.get("/search", async (req, res) => {
 
 
 // Route to fetch details of a specific product by ID
-router.get("/product:productID", async (req, res) => {
+router.get("/product/:productID", async (req, res) => {
   try {
     const product = await db.query(
       `SELECT * FROM Product WHERE id=${req.params.productID}`
