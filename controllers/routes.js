@@ -3,6 +3,7 @@ const router = express.Router();
 
 // Import the database utility
 const db = require("../database/db");
+const { getSearchCount, search } = require("../utils");
 
 
 // Route to perform a search based on query parameters
@@ -89,23 +90,23 @@ router.get("/compare/:productID", async (req, res) => {
   }
 });
 
-/** Function that gets the total count of product from search term */
-async function getSearchCount(searchTerm) {
-  const sql = `SELECT COUNT(*) FROM Product WHERE name LIKE '%${searchTerm}%'`;
-  let result = await db.query(sql);
-  return result[0]["COUNT(*)"];
-}
+// /** Function that gets the total count of product from search term */
+// async function getSearchCount(searchTerm) {
+//   const sql = `SELECT COUNT(*) FROM Product WHERE name LIKE '%${searchTerm}%'`;
+//   let result = await db.query(sql);
+//   return result[0]["COUNT(*)"];
+// }
 
-/** Function that searches for product with search term */
-async function search(searchTerm, numItems, offset) {
-  let sql = `SELECT * FROM Product WHERE name LIKE '%${searchTerm}%' `;
+// /** Function that searches for product with search term */
+// async function search(searchTerm, numItems, offset) {
+//   let sql = `SELECT * FROM Product WHERE name LIKE '%${searchTerm}%' `;
 
-  //Limit the number of results returned
-  if (numItems !== undefined && offset !== undefined) {
-    sql += `LIMIT ${numItems} OFFSET ${offset}`;
-  }
+//   //Limit the number of results returned
+//   if (numItems !== undefined && offset !== undefined) {
+//     sql += `LIMIT ${numItems} OFFSET ${offset}`;
+//   }
 
-  return db.query(sql);
-}
+//   return db.query(sql);
+// }
 
-module.exports = router;
+module.exports = router, {search};
