@@ -49,12 +49,8 @@ router.get("/product/:productID", async (req, res) => {
     const product = await db.query(
       `SELECT * FROM Product WHERE id=${req.params.productID}`
     );
-    const comparison = await db.query(
-      `SELECT * FROM Comparison WHERE product_id=${req.params.productID}`
-    );
     const results = {
       product,
-      comparison,
     };
     res.json({ results });
   } catch (error) {
@@ -91,4 +87,4 @@ router.get("/compare/:productID", async (req, res) => {
 });
 
 
-module.exports = router, {search};
+module.exports = router;
