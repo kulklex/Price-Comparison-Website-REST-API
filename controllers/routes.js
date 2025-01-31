@@ -87,4 +87,47 @@ router.get("/compare/:productID", async (req, res) => {
 });
 
 
+// Pagination route
+router.get("/pagination", async (req, res) => {
+  try {
+    const searchTerm = req.query.q;
+    const page = parseInt(req.query.page, 10);
+    const pageSize = parseInt(req.query.pageSize, 10);
+
+    // Check if parameters exist
+    if (!searchTerm) {
+      return res.status(400).json({ error: "Missing search term" });
+    }
+    if (!page || page < 1) {
+      return res.status(400).json({ error: "Page must be a positive integer" });
+    }
+    if (!pageSize || pageSize < 1) {
+      return res.status(400).json({ error: "Page size must be a positive integer" });
+    }
+
+    // Calculate offset and limit
+    const offset = (page - 1) * pageSize;
+
+    // Get the total count of items for pagination
+    const totalCount = await getSearchCount(searchTerm);
+
+    // Fetch paginated results
+    const paginatedResults = await search(searchTerm, pageSize, offset);
+
+    // Combine into a response object
+    const results = {
+      totalCount,
+      page,
+      pageSize,
+      totalPages: Math.ceil(totalCount / pageSize),
+      data: paginatedResults,
+    };
+
+    res.json({ results });
+  } catch (error) {
+    console.error("Error in pagination route", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 module.exports = router;
